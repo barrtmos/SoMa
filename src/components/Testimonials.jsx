@@ -8,8 +8,8 @@ const Testimonials = () => (
             </div>
             <div className="grid-3">
                 {[
-                    { name: 'Елена и Марк', text: 'Мы нашли друг друга в первый же день! Спасибо SoMa за этот шанс.', img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=60' },
-                    { name: 'Дмитрий и София', text: 'Алгоритм совместимости действительно работает. Мы на одной волне.', img: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop&q=60' }
+                    { name: 'София и Дмитрий', text: 'Алгоритм совместимости действительно работает. Мы на одной волне.', img: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop&q=60' },
+                    { name: 'Марк и Елена', text: 'Мы нашли друг друга в первый же день! Спасибо SoMa за этот шанс.', img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=60' }
                 ].map((t, i) => (
                     <div key={i} className="glass testimonial-card">
                         <img src={t.img} alt={t.name} className="testimonial-avatar" />

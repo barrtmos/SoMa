@@ -5,7 +5,8 @@ const Hero = () => (
         <div className="container animate-fade-in hero-grid">
             <div>
                 <h1 className="hero-title">
-                    Найди свою <span className="gradient-text">искру</span> <br /> в мире SoMa
+                    <span className="text-warm">Найди свою</span> <span className="gradient-text">искру</span> <br />
+                    <span className="text-warm">в мире SoMa</span>
                 </h1>
                 <p className="hero-text">
                     Мы объединяем сердца с помощью умных алгоритмов и глубокого понимания личности. Начни свою историю любви сегодня - не теряй время.
