@@ -36,6 +36,11 @@ const Header = () => {
             <nav className="nav-links">
                 <a href="#" className="nav-link">Как это работает</a>
                 <a href="#" className="nav-link">Отзывы</a>
+                {user && (
+                    <Link to="/profile/edit" className="nav-link">
+                        Редактировать профиль
+                    </Link>
+                )}
             </nav>
             <button className="btn-primary nav-btn" onClick={handleAuthClick}>
                 {user ? 'Профиль' : 'Войти'}
