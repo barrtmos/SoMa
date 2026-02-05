@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 
 const DiscoveryPage = () => {
     const [users, setUsers] = useState([]);
-    const [myLikes, setMyLikes] = useState([]);
+    const [likedUsers, setLikedUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentUser, setCurrentUser] = useState(null);
 
@@ -15,7 +15,7 @@ const DiscoveryPage = () => {
             if (user) {
                 setCurrentUser(user);
                 fetchUsers(user.id);
-                fetchMyLikes(user.id);
+                fetchLikedUsers(user.id);
             } else {
                 setLoading(false);
             }
@@ -23,45 +23,56 @@ const DiscoveryPage = () => {
         init();
     }, []);
 
-    const fetchMyLikes = async (userId) => {
+    const fetchLikedUsers = async (userId) => {
         try {
-            // 1. Кого лайкнул я
+            // 1. Получаем ID всех, кому я поставил лайк
             const { data: givenLikes, error: givenError } = await supabase
                 .from('likes')
-                .select(`
-                    to_user,
-                    profiles:to_user (id, full_name, avatar_url)
-                `)
+                .select('to_user')
                 .eq('from_user', userId)
                 .eq('is_like', true);
 
             if (givenError) throw givenError;
+            if (!givenLikes || givenLikes.length === 0) {
+                setLikedUsers([]);
+                return;
+            }
 
-            // 2. Кто лайкнул меня
+            const targetIds = givenLikes.map(l => l.to_user);
+
+            // 2. Получаем профили этих людей
+            const { data: profiles, error: profileError } = await supabase
+                .from('profiles')
+                .select('id, full_name, avatar_url')
+                .in('id', targetIds);
+
+            if (profileError) throw profileError;
+
+            // 3. Проверяем взаимность (кто лайкнул меня)
             const { data: receivedLikes } = await supabase
                 .from('likes')
                 .select('from_user')
                 .eq('to_user', userId)
+                .in('from_user', targetIds)
                 .eq('is_like', true);
 
-            const receivedIds = new Set(receivedLikes?.map(l => l.from_user) || []);
+            const matchIds = new Set(receivedLikes?.map(l => l.from_user) || []);
 
-            const processedLikes = givenLikes?.map(like => ({
-                ...like.profiles,
-                isMatch: receivedIds.has(like.to_user)
-            })) || [];
+            // 4. Совмещаем данные
+            const processed = profiles.map(p => ({
+                ...p,
+                isMatch: matchIds.has(p.id)
+            }));
 
-            setMyLikes(processedLikes);
+            setLikedUsers(processed);
         } catch (error) {
-            console.error('Error fetching my likes:', error.message);
+            console.error('Error fetching liked users:', error.message);
         }
     };
 
     const fetchUsers = async (userId) => {
         try {
             setLoading(true);
-
-            // Получаем список ID тех, кому мы уже поставили лайк/дизлайк
             const { data: reactedData } = await supabase
                 .from('likes')
                 .select('to_user')
@@ -74,13 +85,11 @@ const DiscoveryPage = () => {
                 .select('id, full_name, age, avatar_url, bio')
                 .neq('id', userId);
 
-            // Если есть те, на кого уже отреагировали - исключаем их
             if (reactedIds.length > 0) {
                 query = query.not('id', 'in', `(${reactedIds.join(',')})`);
             }
 
             const { data, error } = await query;
-
             if (error) throw error;
             setUsers(data || []);
         } catch (error) {
@@ -92,9 +101,7 @@ const DiscoveryPage = () => {
 
     const handleReaction = async (targetUserId, isLike) => {
         if (!currentUser) return;
-
         try {
-            // 1. Записываем реакцию в базу
             const { error: insertError } = await supabase
                 .from('likes')
                 .insert({
@@ -105,7 +112,6 @@ const DiscoveryPage = () => {
 
             if (insertError) throw insertError;
 
-            // 2. Если это лайк, проверяем на взаимность и обновляем список симпатий
             if (isLike) {
                 const { data: reciprocalLike } = await supabase
                     .from('likes')
@@ -118,22 +124,13 @@ const DiscoveryPage = () => {
                 if (reciprocalLike) {
                     alert("Это взаимно! У вас мэтч! 🎉");
                 }
-
-                // Сразу обновляем список моих симпатий
-                fetchMyLikes(currentUser.id);
+                fetchLikedUsers(currentUser.id);
             }
-
-            // 3. Убираем карточку из списка (скрываем)
-            setUsers(prevUsers => prevUsers.filter(u => u.id !== targetUserId));
-
+            setUsers(prev => prev.filter(u => u.id !== targetUserId));
         } catch (error) {
-            console.error('Error processing reaction:', error.message);
-            alert('Произошла ошибка при сохранении реакции.');
+            console.error('Error reaction:', error.message);
         }
     };
-
-    const handleLike = (userId) => handleReaction(userId, true);
-    const handleDislike = (userId) => handleReaction(userId, false);
 
     return (
         <div className="discovery-page">
@@ -144,12 +141,12 @@ const DiscoveryPage = () => {
                     <p className="section-subtitle">Посмотрите, кто еще в SoMa сегодня</p>
                 </header>
 
-                {/* Блок симпатий */}
-                {myLikes.length > 0 && (
+                {/* Блок симпатий - виден только авторизованным */}
+                {currentUser && likedUsers.length > 0 && (
                     <div className="sympathies-block animate-fade-in">
                         <h2 className="sympathies-title">Мои симпатии</h2>
                         <div className="sympathies-list">
-                            {myLikes.map((profile) => (
+                            {likedUsers.map((profile) => (
                                 <div key={profile.id} className={`sympathy-item ${profile.isMatch ? 'match' : ''}`} title={profile.full_name}>
                                     <div className="sympathy-avatar">
                                         {profile.avatar_url ? (
@@ -187,20 +184,8 @@ const DiscoveryPage = () => {
                                     </h3>
                                     {profile.bio && <p className="user-card-bio">{profile.bio}</p>}
                                     <div className="user-card-actions">
-                                        <button
-                                            className="action-btn dislike"
-                                            onClick={() => handleDislike(profile.id)}
-                                            title="Дизлайк"
-                                        >
-                                            ❌
-                                        </button>
-                                        <button
-                                            className="action-btn like"
-                                            onClick={() => handleLike(profile.id)}
-                                            title="Лайк"
-                                        >
-                                            ❤️
-                                        </button>
+                                        <button className="action-btn dislike" onClick={() => handleReaction(profile.id, false)}>❌</button>
+                                        <button className="action-btn like" onClick={() => handleReaction(profile.id, true)}>❤️</button>
                                     </div>
                                 </div>
                             </div>

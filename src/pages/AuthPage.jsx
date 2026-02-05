@@ -61,9 +61,11 @@ const AuthPage = () => {
                         {isLogin ? 'Вход в SoMa' : 'Регистрация в SoMa'}
                     </h2>
 
-                    <form className="auth-form" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }} onSubmit={(e) => e.preventDefault()}>
+                    <form className="auth-form" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }} onSubmit={(e) => handleAuth(e, isLogin ? 'login' : 'signup')}>
                         <input
                             type="email"
+                            name="email"
+                            autoComplete="email"
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -71,6 +73,8 @@ const AuthPage = () => {
                         />
                         <input
                             type="password"
+                            name="password"
+                            autoComplete={isLogin ? "current-password" : "new-password"}
                             placeholder="Пароль"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -85,7 +89,7 @@ const AuthPage = () => {
 
                         <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
                             <button
-                                type="button"
+                                type="submit"
                                 className={isLogin ? "btn-primary" : "btn-secondary"}
                                 onClick={(e) => handleAuth(e, 'login')}
                                 disabled={loading}
@@ -94,7 +98,7 @@ const AuthPage = () => {
                                 {loading && isLogin ? '...' : 'Войти'}
                             </button>
                             <button
-                                type="button"
+                                type={!isLogin ? "submit" : "button"}
                                 className={!isLogin ? "btn-primary" : "btn-secondary"}
                                 onClick={(e) => handleAuth(e, 'signup')}
                                 disabled={loading}

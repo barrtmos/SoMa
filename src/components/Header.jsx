@@ -36,7 +36,7 @@ const Header = () => {
             <nav className="nav-links">
                 <Link to="/" className="nav-link">Найти пару</Link>
                 <Link to="/about" className="nav-link">Как это работает</Link>
-                <a href="#" className="nav-link">Отзывы</a>
+                <Link to="/about" className="nav-link">Отзывы</Link>
                 {user && (
                     <Link to="/profile/edit" className="nav-link">
                         Редактировать профиль
