@@ -248,6 +248,18 @@ img {
     border-radius: 1.5rem;
 }
 
+.hero-slide-content {
+    transition: opacity 0.6s ease-in-out;
+}
+
+.hero-slide-content.fade-out {
+    opacity: 0;
+}
+
+.hero-slide-content.fade-in {
+    opacity: 1;
+}
+
 .match-card {
     position: absolute;
     bottom: 2rem;
