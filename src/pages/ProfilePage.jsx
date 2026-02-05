@@ -86,7 +86,7 @@ const ProfilePage = () => {
                                 <button className="btn-secondary" onClick={() => navigate('/profile/edit')}>
                                     Редактировать
                                 </button>
-                                <button className="btn-primary" style={{ background: '#ff4b2b' }} onClick={handleSignOut}>
+                                <button className="btn-danger" onClick={handleSignOut}>
                                     Выйти
                                 </button>
                             </div>

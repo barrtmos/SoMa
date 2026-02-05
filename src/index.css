@@ -2,7 +2,10 @@
 
 :root {
     --primary: #ff4d6d;
+    --primary-color: var(--primary);
+    /* Alias for consistency across pages */
     --primary-hover: #ff758f;
+    --primary-hover-color: var(--primary-hover);
     --secondary: #7209b7;
     --accent: #4cc9f0;
     --background: #0b090a;
@@ -13,7 +16,8 @@
     --glass-border: rgba(255, 255, 255, 0.1);
     --font-family: 'Inter', sans-serif;
     --font-nav: 'Outfit', sans-serif;
-    --text-warm: #faedcd; /* Теплый бежевый/слоновая кость */
+    --text-warm: #faedcd;
+    /* Теплый бежевый/слоновая кость */
 }
 
 * {
@@ -74,6 +78,9 @@ img {
 }
 
 .btn-primary {
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
     padding: 1rem 2rem;
@@ -86,6 +93,45 @@ img {
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 15px 30px rgba(255, 77, 109, 0.4);
+}
+
+.btn-secondary {
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-danger {
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    background: #ff4b2b;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    box-shadow: 0 10px 20px rgba(255, 75, 43, 0.2);
+}
+
+.btn-danger:hover {
+    background: #ff6045;
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(255, 75, 43, 0.3);
 }
 
 .gradient-text {
