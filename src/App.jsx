@@ -4,6 +4,7 @@ import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
 import ProfilePage from './pages/ProfilePage';
 import ProfileEditPage from './pages/ProfileEditPage';
+import DiscoveryPage from './pages/DiscoveryPage';
 
 
 const App = () => {
@@ -11,7 +12,8 @@ const App = () => {
         <Router>
             <div className="app">
                 <Routes>
-                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/" element={<DiscoveryPage />} />
+                    <Route path="/about" element={<LandingPage />} />
                     <Route path="/auth" element={<AuthPage />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/profile/edit" element={<ProfileEditPage />} />

@@ -368,6 +368,217 @@ img {
     text-align: center;
 }
 
+/* Sympathies Block */
+.sympathies-block {
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 1.5rem;
+    border: 1px solid var(--glass-border);
+}
+
+.sympathies-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.sympathies-list {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+}
+
+.sympathies-list::-webkit-scrollbar {
+    height: 4px;
+}
+
+.sympathies-list::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 10px;
+}
+
+.sympathy-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 70px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.sympathy-item:hover {
+    transform: translateY(-3px);
+}
+
+.sympathy-avatar {
+    position: relative;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    border: 2px solid var(--glass-border);
+    padding: 2px;
+}
+
+.sympathy-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sympathy-item.match .sympathy-avatar {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(255, 77, 109, 0.3);
+}
+
+.match-badge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: var(--primary);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.sympathy-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.no-avatar-small {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.discovery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.user-card {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.user-card:hover {
+    transform: translateY(-5px);
+}
+
+.user-card-image {
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.user-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.no-avatar {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.user-card-info {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.user-card-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.user-card-age {
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.user-card-bio {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+}
+
+.user-card-actions {
+    margin-top: auto;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    padding-top: 1rem;
+}
+
+.action-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+.action-btn.like:hover {
+    background: rgba(255, 77, 109, 0.1);
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(255, 77, 109, 0.3);
+}
+
+.action-btn.dislike:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--text-muted);
+}
+
 .footer-logo {
     font-size: 1.5rem;
     font-weight: 800;

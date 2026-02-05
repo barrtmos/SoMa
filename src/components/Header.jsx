@@ -34,7 +34,8 @@ const Header = () => {
                 SoMa
             </div>
             <nav className="nav-links">
-                <a href="#" className="nav-link">Как это работает</a>
+                <Link to="/" className="nav-link">Найти пару</Link>
+                <Link to="/about" className="nav-link">Как это работает</Link>
                 <a href="#" className="nav-link">Отзывы</a>
                 {user && (
                     <Link to="/profile/edit" className="nav-link">
